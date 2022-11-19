@@ -20,62 +20,75 @@ public class MortgageCal extends JFrame{
 
                 final byte PERCENT = 100;
                 final byte monthsPerYear = 12;
-                boolean value1;
-                boolean value2;
-                boolean value3; // Sri Lanka
+                boolean value0 = false; //To check if the inputs are valid
+                boolean value1 = false; //To check if the principal value is in the acceptable region
+                boolean value2 = false; //To check if the Interest rate (Yearly) is in the acceptable region
+                boolean value3 = false; //To check if the time period (years) is a positive integer
                 int principal = 0;
                 int annualIntRate = 0;
                 int periodInYears = 0;
 
                 try {
                 principal = Integer.valueOf(valuePrincipal.getText());
-                value1 = true;
+
                 if (1000 > principal || principal > 1_000_000) {
-                    JOptionPane.showMessageDialog(btnClick, " Invalid input. Enter principal between 1K - 1000K");
-                    value1 = false;
+                    value1 = true;
                     }
                 }
                 catch (Exception valuePrincipal){
-                    JOptionPane.showMessageDialog(btnClick,"Your input is invalid, please try again");
+                    value0 = true;
                 }
 
 
                 try {
                     annualIntRate = Integer.valueOf(valueAnnualInterestrate.getText());
-                    value2 = true;
+
                     if (0>annualIntRate || annualIntRate>30) {
-                        JOptionPane.showMessageDialog(btnClick, " Invalid input. Enter rate upto 30%");
-                        value2 = false;
+                        value2 = true;
                     }
                 }
                 catch (Exception valuePrincipal){
-                    JOptionPane.showMessageDialog(btnClick,"Your input is invalid, please try again");
+                    value0 = true;
                 }
 
 
                 try {
                     periodInYears = Integer.valueOf(valuePeriodYears.getText());
-                    value3 = true;
+
                     if (1>periodInYears) {
-                        JOptionPane.showMessageDialog(btnClick, " Invalid input. Enter value >=1");
-                        value3 = false;
+                        value3 = true;
                     }
                 }
                 catch (Exception valuePrincipal){
-                    JOptionPane.showMessageDialog(btnClick,"Your input is invalid, please try again");
+                    value0 = true;
                 }
 
 
-                double interestRateMonthly = Float.valueOf(annualIntRate) / PERCENT / monthsPerYear;
-                double periodInMonths = periodInYears * monthsPerYear;
+                if (value0) {
+                    JOptionPane.showMessageDialog(btnClick, "Your input is invalid, please try again");
+                }
+                else if (value1) {
+                    JOptionPane.showMessageDialog(btnClick, " Invalid input. Enter principal between 1K - 1000K");
+                }
+                else if (value2) {
+                    JOptionPane.showMessageDialog(btnClick, " Invalid input. Enter rate upto 30%");
+                }
+                else if (value3) {
+                    JOptionPane.showMessageDialog(btnClick, " Invalid input. Enter value >=1");
+                }
 
-                double mortgage = (principal * interestRateMonthly * Math.pow((1+interestRateMonthly),periodInMonths)) / (Math.pow((1+interestRateMonthly),periodInMonths) - 1);
+                else {
 
-                NumberFormat mortgageInCurrency = NumberFormat.getCurrencyInstance(Locale.US);
-                String finalValue = mortgageInCurrency.format(mortgage);
+                    double interestRateMonthly = Float.valueOf(annualIntRate) / PERCENT / monthsPerYear;
+                    double periodInMonths = periodInYears * monthsPerYear;
 
-                //JOptionPane.showMessageDialog(btnClick,"Your input is OK");
-                JOptionPane.showMessageDialog(btnClick,"Mortgage: " + finalValue);
+                    double mortgage = (principal * interestRateMonthly * Math.pow((1 + interestRateMonthly), periodInMonths)) / (Math.pow((1 + interestRateMonthly), periodInMonths) - 1);
+
+                    NumberFormat mortgageInCurrency = NumberFormat.getCurrencyInstance(Locale.US);
+                    String finalValue = mortgageInCurrency.format(mortgage);
+
+                    JOptionPane.showMessageDialog(btnClick, "Mortgage: " + finalValue);
+                }
 
                 }
         });
