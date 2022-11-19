@@ -22,7 +22,7 @@ public class MortgageCal extends JFrame{
                 final byte monthsPerYear = 12;
                 boolean value1;
                 boolean value2;
-                boolean value3;
+                boolean value3; // Sri Lanka
                 int principal = 0;
                 int annualIntRate = 0;
                 int periodInYears = 0;
